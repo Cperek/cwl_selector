@@ -11,11 +11,14 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "material-design-icons-iconfont": "^6.7.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vuetify": "^3.6.5"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.11",
     "@vitejs/plugin-vue": "^5.0.4",

@@ -9,7 +9,7 @@ import Navbar from '@/components/Nav.vue'
   </header>
 
   <v-app>
-    <v-container fluid>
+    <v-container>
       <Navbar />
     <div class="container">
       <RouterView />
@@ -19,4 +19,5 @@ import Navbar from '@/components/Nav.vue'
 </template>
 
 <style scoped>
+
 </style>
