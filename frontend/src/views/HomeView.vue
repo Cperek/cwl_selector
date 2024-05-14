@@ -104,7 +104,7 @@ const RandomizeTeams = () =>
 
 
 const startDrag = (event: DragEvent, index: number, slotindex: number = 0,team :number = -1) => {
-  console.log(index);
+  
   const item = Players.value.find((e) => e && e.id === index);
 
   if (item) {
@@ -306,8 +306,19 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
   display: flex;
   justify-content: flex-start;
   border: 4px solid transparent;
+  cursor:grab;
 
 }
+.team_player:active, .playerchip:active
+{
+  cursor:grabbing;
+}
+
+.playerchip
+{
+  cursor:grab;
+}
+
 .playerDiv{
   width: 100%;
   align-items: center;
