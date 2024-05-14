@@ -104,7 +104,8 @@ const RandomizeTeams = () =>
 
 
 const startDrag = (event: DragEvent, index: number, slotindex: number = 0,team :number = -1) => {
-  const item = Players.value[index];
+  console.log(index);
+  const item = Players.value.find((e) => e && e.id === index);
 
   if (item) {
     event.dataTransfer!.dropEffect = 'move';
@@ -125,12 +126,12 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
 
   let playerIndexNum = Number(PlayerIndex);
 
-  if (PlayerIndex === '' || isNaN(playerIndexNum) || playerIndexNum < 0 || playerIndexNum >= Players.value.length) {
+  if (PlayerIndex === '' || isNaN(playerIndexNum) || playerIndexNum < 0) {
     console.error("onDrop - Invalid PlayerIndex:", PlayerIndex);
     return;
   }
 
-  let data = Players.value[playerIndexNum];
+  let data = Players.value.find((e) => e && e.id === playerIndexNum);
 
   if (!data) {
     console.error("onDrop - Invalid player data at index:", playerIndexNum);
@@ -198,7 +199,7 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
         v-for="(player, index) in Players"
         :key="player.id"
         :title="player.title"
-        :index="index"
+        :index="player.id"
         :startdrag="startDrag"
         @remove="chipRemove(index,player.title)"
         />
@@ -240,14 +241,16 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
                   <v-avatar size="32" start color="surface-variant">
                     <v-icon icon="mdi-account-circle"></v-icon>
                   </v-avatar>
-                  {{ teams.team0[n-1].title }}
+                  <div class="d-flex" style="width: -webkit-fill-available;" >
+                    {{ teams.team0[n-1].title }}
+                  </div>
                   <div class="remove_team_card" width="100%" d-flex justify-end>
                     <v-btn v-if="teams.team0[n-1] && Players.find((e) => e && e.id === teams.team0[n-1].id && e.locked === true)" @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-outline" color="red" size="27"></v-btn>
                     <v-btn v-else @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
                     <v-btn float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
                   </div>
                 </div>
-                <div class="ml-1" v-else>
+                <div class="d-flex ml-1" style="width: -webkit-fill-available;"  v-else>
                   Pusty
                 </div>
               </v-sheet>
@@ -270,14 +273,16 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
                   <v-avatar size="32" start color="surface-variant">
                     <v-icon icon="mdi-account-circle"></v-icon>
                   </v-avatar>
-                  {{ teams.team1[n-1].title }}
+                  <div class="d-flex" style="width: -webkit-fill-available;">
+                    {{ teams.team1[n-1].title }}
+                  </div>
                   <div class="remove_team_card" width="100%" d-flex justify-end>
                     <v-btn v-if="teams.team1[n-1].id && Players.find((e) => e && e.id === teams.team1[n-1].id && e.locked === true)" @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-outline" color="teal-accent-4" size="27"></v-btn>
                     <v-btn v-else @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
                     <v-btn float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
                   </div>
                 </div>
-                <div class="ml-1" v-else>
+                <div class="ml-1 d-flex" style="width: -webkit-fill-available;" v-else>
                   Pusty
                 </div>
               </v-sheet>
