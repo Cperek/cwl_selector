@@ -57,51 +57,43 @@ const startDrag = (event: DragEvent, index: number) => {
     event.dataTransfer!.dropEffect = 'move';
     event.dataTransfer!.effectAllowed = 'move';
     event.dataTransfer!.setData('PlayerIndex', index.toString());
-    console.log("startDrag - PlayerIndex set to:", index);
   } else {
     console.error("startDrag - Invalid item at index:", index);
   }
 };
 
 const onDrop = (event: DragEvent, team: number, index: number) => {
-  const PlayerIndex = event.dataTransfer!.getData('PlayerIndex');
-  const playerIndexNum = Number(PlayerIndex);
+  let PlayerIndex = event.dataTransfer!.getData('PlayerIndex');
+  let playerIndexNum = Number(PlayerIndex);
 
   if (isNaN(playerIndexNum) || playerIndexNum < 0 || playerIndexNum >= Players.value.length) {
     console.error("onDrop - Invalid PlayerIndex:", PlayerIndex);
     return;
   }
 
-  const data = Players.value[playerIndexNum];
+  let data = Players.value[playerIndexNum];
 
   if (!data) {
     console.error("onDrop - Invalid player data at index:", playerIndexNum);
     return;
   }
 
-  const existsTeam0 = teams.team0.find((e) => e && e.title === data.title);
-  const existsTeam1 = teams.team1.find((e) => e && e.title === data.title);
+  let existsTeam0 = teams.team0.findIndex((e) => e && e.title === data.title);
+  let existsTeam1 = teams.team1.findIndex((e) => e && e.title === data.title);
+
+  if (existsTeam0 >= 0) {
+      delete teams.team0[existsTeam0];
+  } 
+  if (existsTeam1 >= 0) {
+      delete teams.team1[existsTeam1];
+  }
 
   if (team) {
-    if (existsTeam0) {
-      let tmpIndex = teams.team0.indexOf(existsTeam0);
-      teams.team0.splice(tmpIndex, 1);
-    } else if (existsTeam1) {
-      let tmpIndex = teams.team1.indexOf(existsTeam1);
-      teams.team1.splice(tmpIndex, 1);
-    }
     teams.team1[index] = data;
   } else {
-    if (existsTeam0) {
-      let tmpIndex = teams.team0.indexOf(existsTeam0);
-      teams.team0.splice(tmpIndex, 1);
-    } else if (existsTeam1) {
-      let tmpIndex = teams.team1.indexOf(existsTeam1);
-      teams.team1.splice(tmpIndex, 1);
-    }
     teams.team0[index] = data;
   }
-  console.log("onDrop - Updated teams:", teams);
+
 };
 
 </script>
