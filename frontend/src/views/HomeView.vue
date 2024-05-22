@@ -186,8 +186,8 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
   <main>
     <div class="d-flex">
       <v-text-field v-model="nick" :width="250" @keyup.enter="AddChip" label="Nick" variant="underlined"></v-text-field>
-      <v-btn  @click="AddChip" class="align-self-center ma-4" color="teal-accent-4" density="comfortable">
-      Dodaj
+      <v-btn  @click="AddChip" class="align-self-center ma-4" color="#66c0f4">
+        <v-icon icon="mdi mdi-plus"></v-icon> 
       </v-btn>
     </div>
     <div>
@@ -211,7 +211,7 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
   <div>
     <v-container class="mt-4 ml-0 pl-0">
       <div>
-        <v-btn  @click="RandomizeTeams" class="align-self-center ma-2" color="red">
+        <v-btn  @click="RandomizeTeams" class="align-self-center ma-2" color="#66c0f4">
         Losuj <v-icon class="ml-2" icon="mdi-shuffle-variant"></v-icon>
         </v-btn>
       </div>
@@ -238,16 +238,16 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
                 @dragover.prevent
               >
                 <div v-if="teams.team0[n-1]" class="playerDiv">
-                  <v-avatar size="32" start color="surface-variant">
+                  <v-avatar size="20" start color="surface-variant">
                     <v-icon icon="mdi-account-circle"></v-icon>
                   </v-avatar>
                   <div class="d-flex" style="width: -webkit-fill-available;" >
                     {{ teams.team0[n-1].title }}
                   </div>
                   <div class="remove_team_card" width="100%" d-flex justify-end>
-                    <v-btn v-if="teams.team0[n-1] && Players.find((e) => e && e.id === teams.team0[n-1].id && e.locked === true)" @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-outline" color="red" size="27"></v-btn>
+                    <v-btn v-if="teams.team0[n-1] && Players.find((e) => e && e.id === teams.team0[n-1].id && e.locked === true)" @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-outline" color="red-accent-3" size="27"></v-btn>
                     <v-btn v-else @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
-                    <v-btn float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
+                    <v-btn @click="delete teams.team0[n-1]" float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
                   </div>
                 </div>
                 <div class="d-flex ml-1" style="width: -webkit-fill-available;"  v-else>
@@ -270,16 +270,16 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
                 @dragover.prevent
               >
                 <div v-if="teams.team1[n-1]" class="playerDiv">
-                  <v-avatar size="32" start color="surface-variant">
+                  <v-avatar size="20" start color="surface-variant">
                     <v-icon icon="mdi-account-circle"></v-icon>
                   </v-avatar>
                   <div class="d-flex" style="width: -webkit-fill-available;">
                     {{ teams.team1[n-1].title }}
                   </div>
                   <div class="remove_team_card" width="100%" d-flex justify-end>
-                    <v-btn v-if="teams.team1[n-1].id && Players.find((e) => e && e.id === teams.team1[n-1].id && e.locked === true)" @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-outline" color="teal-accent-4" size="27"></v-btn>
+                    <v-btn v-if="teams.team1[n-1] && Players.find((e) => e && e.id === teams.team1[n-1].id && e.locked === true)" @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-outline" color="teal-accent-4" size="27"></v-btn>
                     <v-btn v-else @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
-                    <v-btn float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
+                    <v-btn @click="delete teams.team1[n-1]" float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
                   </div>
                 </div>
                 <div class="ml-1 d-flex" style="width: -webkit-fill-available;" v-else>
@@ -326,25 +326,23 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
 }
 .team_1:hover
 {
-  border: 4px solid rgb(0, 191, 165);
+  border: 4px solid #c7d5e0;
 }
 .team_0:hover
 {
-  border: 4px solid rgb(244, 67, 54)
+  border: 4px solid #c7d5e0;
 }
 
-.t1{
-  color: rgb(0, 191, 165);
-
-}
-
-.t0{
- color: rgb(244, 67, 54)
+.team_0, .team_1{
+  background: linear-gradient(45deg, #171a21, #1b2838);
 }
 
 .t1, .t0{
-    border-bottom: 1px solid rgb(66, 66, 66);
+    border-bottom: 1px solid rgb(255, 255, 255);
     padding-bottom: 3px;
+    margin:0px 10px 0px 3px;
+    color: white;
+    font-weight: bold
 }
 
 </style>
