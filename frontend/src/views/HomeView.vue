@@ -2,6 +2,8 @@
 import { reactive, ref, type Ref } from 'vue'
 import { el } from 'vuetify/locale';
 import PlayerChip from '../components/PlayerChip.vue';
+import { useWindowSize } from '@vueuse/core'
+
 
 
 interface Player {
@@ -19,6 +21,7 @@ let Players = ref<Player[]>([]);
 let nick = ref<string>('');
 let nextID = 0;
 
+const {width = ref<number>(1024)} = useWindowSize();
 
 let teams = reactive<Teams>({
   team0: [],
@@ -209,14 +212,14 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
   </main>
 
   <div>
-    <v-container class="mt-4 ml-0 pl-0">
+    <v-container v-if="width >= 1024" class="mt-4 ml-0 pl-0">
       <div>
         <v-btn  @click="RandomizeTeams" class="align-self-center ma-2" color="#66c0f4">
         Losuj <v-icon class="ml-2" icon="mdi-shuffle-variant"></v-icon>
         </v-btn>
       </div>
       <div class="mt-16">
-        <v-row class="mx-6" no-gutters >
+        <v-row class="mx-6 team-head-lg" no-gutters >
           <v-col cols="4">
             <h1 class="t0">TEAM 1</h1>
           </v-col>
@@ -225,7 +228,7 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
             <h1 class="t1">TEAM 2</h1>
           </v-col>
         </v-row>
-        <v-row class="mx-6 player{{ n }}" no-gutters v-for="n in 5" :key="n">
+        <v-row class="mx-6 player{{ n }} player-rows" no-gutters v-for="n in 5" :key="n">
             <v-col cols="4">
               <v-sheet
                 min-height="80"
@@ -288,6 +291,80 @@ const onDrop = (event: DragEvent, team: number, index: number) => {
               </v-sheet>
             </v-col>
         </v-row>
+      </div>
+    </v-container>
+
+    <v-container v-if="width < 1024" class="mt-4 ml-0 pl-0">
+      <div>
+        <v-btn  @click="RandomizeTeams" class="align-self-center ma-2" color="#66c0f4">
+        Losuj <v-icon class="ml-2" icon="mdi-shuffle-variant"></v-icon>
+        </v-btn>
+      </div>
+      <div class="mt-16">
+        <h1 class="t0">TEAM 1</h1>
+        <v-row class="mx-6 player{{ n }} player-rows" no-gutters v-for="n in 5" :key="n">
+            <v-col cols="4">
+              <v-sheet
+                min-height="80"
+                draggable="true"
+                v-bind:rounded="true"
+                class="ma-2 ml-0 px-4 py-6 bg-surface-variant team_player team_0"
+                @dragstart="startDrag($event, teams.team0[n-1] ? teams.team0[n-1].id : -1,n-1,0)"
+                @drop="onDrop($event, 0, n-1)"
+                @dragenter.prevent
+                @dragover.prevent
+              >
+                <div v-if="teams.team0[n-1]" class="playerDiv">
+                  <v-avatar size="20" start color="surface-variant">
+                    <v-icon icon="mdi-account-circle"></v-icon>
+                  </v-avatar>
+                  <div class="d-flex" style="width: -webkit-fill-available;" >
+                    {{ teams.team0[n-1].title }}
+                  </div>
+                  <div class="remove_team_card" width="100%" d-flex justify-end>
+                    <v-btn v-if="teams.team0[n-1] && Players.find((e) => e && e.id === teams.team0[n-1].id && e.locked === true)" @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-outline" color="red-accent-3" size="27"></v-btn>
+                    <v-btn v-else @click="lockPlayer(teams.team0[n-1] ? teams.team0[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
+                    <v-btn @click="delete teams.team0[n-1]" float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
+                  </div>
+                </div>
+                <div class="d-flex ml-1" style="width: -webkit-fill-available;"  v-else>
+                  Pusty
+                </div>
+              </v-sheet>
+            </v-col>
+           </v-row>
+           <h1 class="t1 mt-4">TEAM 2</h1>
+            <v-row class="mx-6 player{{ n }} player-rows" no-gutters v-for="n in 5" :key="n">
+            <v-col cols="4">
+              <v-sheet
+                min-height="80"
+                draggable="true"
+                v-bind:rounded="true"
+                class="ma-2 ml-0 px-4 py-6 bg-surface-variant team_player team_1"
+                @dragstart="startDrag($event, teams.team1[n-1] ? teams.team1[n-1].id : -1,n-1,1)"
+                @drop="onDrop($event, 1, n-1)"
+                @dragenter.prevent
+                @dragover.prevent
+              >
+                <div v-if="teams.team1[n-1]" class="playerDiv">
+                  <v-avatar size="20" start color="surface-variant">
+                    <v-icon icon="mdi-account-circle"></v-icon>
+                  </v-avatar>
+                  <div class="d-flex" style="width: -webkit-fill-available;">
+                    {{ teams.team1[n-1].title }}
+                  </div>
+                  <div class="remove_team_card" width="100%" d-flex justify-end>
+                    <v-btn v-if="teams.team1[n-1] && Players.find((e) => e && e.id === teams.team1[n-1].id && e.locked === true)" @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-outline" color="teal-accent-4" size="27"></v-btn>
+                    <v-btn v-else @click="lockPlayer(teams.team1[n-1] ? teams.team1[n-1].id : -1)" float-right icon="mdi-lock-open-variant-outline" color="transparent" size="27"></v-btn>
+                    <v-btn @click="delete teams.team1[n-1]" float-right icon="mdi-close-thick" color="transparent" size="27"></v-btn>
+                  </div>
+                </div>
+                <div class="ml-1 d-flex" style="width: -webkit-fill-available;" v-else>
+                  Pusty
+                </div>
+              </v-sheet>
+            </v-col>
+          </v-row>
       </div>
     </v-container>
   </div>

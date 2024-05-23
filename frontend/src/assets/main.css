@@ -46,4 +46,20 @@ a,
         place-items: start;
         width: 100%;
     }
+    .team-head-lg {
+        display: flex!important;
+    }
+}
+
+@media (max-width: 1024px) {
+    #app {
+        margin-left: 0px;
+    }
+    #PlayersChips {
+        max-width: 80%!important;
+    }
+    .player-rows .v-col {
+        max-width: 100%!important;
+        flex: 0 0 100%!important;
+    }
 }
