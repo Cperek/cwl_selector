@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PlayerChip from '@/components/PlayerChip.vue';
 import { reactive, ref, type Ref } from 'vue'
 import { el } from 'vuetify/locale';
+import PlayerChip from '../components/PlayerChip.vue';
 
 
 interface Player {

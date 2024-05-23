@@ -1,7 +1,5 @@
-<script setup>
+<script setup lang="ts">
 defineProps(['title','index','startdrag'])
-
-
 defineEmits(['remove'])
 </script>
 
