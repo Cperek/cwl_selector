@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, defineProps, emit} from 'vue';
 
 const props = defineProps({
   text: String,
@@ -15,7 +14,7 @@ const emit = defineEmits(['update']);
       v-model="props.show"
       :timeout="2000"
       color="orange-accent-4"
-      variant="tonal"
+      variant="outlined"
     >
       {{ props.text }}
 
