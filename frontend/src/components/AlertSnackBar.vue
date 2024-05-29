@@ -2,7 +2,8 @@
 
 const props = defineProps({
   text: String,
-  show: Boolean
+  show: Boolean,
+  timeout: Number,
 });
 const emit = defineEmits(['update']);
 
@@ -12,9 +13,9 @@ const emit = defineEmits(['update']);
   <div class="text-center">
     <v-snackbar
       v-model="props.show"
-      :timeout="2000"
       color="orange-accent-4"
       variant="outlined"
+      open-delay="500"
     >
       {{ props.text }}
 
